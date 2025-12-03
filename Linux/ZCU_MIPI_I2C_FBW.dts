@@ -1,0 +1,327 @@
+/dts-v1/;
+/plugin/;
+/ {
+
+    fragment@0 {
+        target = <&fpga_full>;
+        overlay0: __overlay__ {
+            #address-cells = <2>;
+            #size-cells = <2>;
+            firmware-name = "mipi_with_fbw.bit";
+            resets = <&zynqmp_reset 116>;
+        };
+    };
+
+    fragment@1 {
+        target = <&amba>;
+        overlay1: __overlay__ {
+            #address-cells = <2>;
+            #size-cells = <2>;
+/*
+#define XVIP_PAD_SINK			0
+#define XVIP_PAD_SOURCE			1
+*/
+
+	clk_24m: clock_24m {
+	compatible = "fixed-clock";
+	#clock-cells = <0>;
+    	clock-frequency = <24000000>;
+	};
+	
+	clk_200M: clock_200M {
+	compatible = "fixed-clock";
+	#clock-cells = <0>;
+    	clock-frequency = <199998000>;
+	};
+	
+	    v_demosaic@A0020000 {
+
+		compatible = "xlnx,v-demosaic";
+		reg = <0x0 0xA0020000 0x0 0x10000>;
+		clock-names = "s_axi_aclk", "ap_clk";
+		clocks = <&clk_200M>, <&clk_200M>;
+		reset-gpios = <&axi_gpio_0 0x01 0x01>;
+		xlnx,max-height = <3100>;
+		xlnx,max-width = <4100>;
+		xlnx,s-axi-ctrl-addr-width = <0x06>;
+		xlnx,s-axi-ctrl-data-width = <0x20>;
+			ports {
+			    #address-cells = <1>;
+			    #size-cells = <0>;
+ 	    		  port@0 {
+				/* Sink port */
+				reg = <0>;
+				xlnx,video-format = <12>;
+				xlnx,video-width = <12>;
+				xlnx,cfa-pattern = "rggb";
+				
+				demo_in: endpoint {
+				    data-lanes = <1 2>;
+				    /* MIPI CSI-2 Camera handle */
+				    remote-endpoint = <&csiss_out>;
+				};
+				};
+			   port@1 {
+			        /* Source port */
+				reg = <1>;
+				xlnx,video-format = <0x1101>;
+				xlnx,cfa-pattern = "xbgr4121212";
+				demo_out: endpoint {
+				remote-endpoint = <&vcap_in>;
+		                };
+		            };
+		   
+			    };
+
+	    };
+
+		xcsi2rxss_1: csi2rx@a0000000 {
+			compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
+			reg = <0x0 0xa0000000 0x0 0x10000>;
+			interrupt-parent = <&gic>;
+			interrupts = <0 89 4>;
+			xlnx,csi-pxl-format = <0x2c>;
+			xlnx,vfb;
+			xlnx,ppc = <1>;
+			xlnx,en-active-lanes;
+			xlnx,en-csi-v2-0;
+			xlnx,en-vcx;
+			clock-names = "lite_aclk", "dphy_clk_200M", "video_aclk"; 
+			clocks = <&clk_200M>, <&clk_200M>, <&clk_200M>;
+			//video-reset-gpios = <&axi_gpio_0 0x02 0x01>;
+			
+			ports {
+			    #address-cells = <1>;
+			    #size-cells = <0>;
+ 	    		  port@0 {
+				/* Sink port */
+				reg = <0>;
+				xlnx,video-format = <0x2C>;
+				xlnx,video-width = <12>;
+				xlnx,cfa-pattern = "rggb";
+				
+				csiss_in: endpoint {
+				    data-lanes = <1 2>;
+				    /* MIPI CSI-2 Camera handle */
+				    remote-endpoint = <&sensor_out>;
+				};
+				};
+			   port@1 {
+			        /* Source port */
+				reg = <1>;
+				xlnx,video-format = <0x2C>;
+				xlnx,cfa-pattern = "rggb";
+				csiss_out: endpoint {
+				remote-endpoint = <&demo_in>;
+		                };
+		            };
+		   
+			    };
+			};
+		   
+
+/*
+		    csc@a0050000 {
+			compatible = "xlnx,v-vpss-csc";
+		        reg = <0x0 0xA0050000 0x0 0x10000>;
+			clocks = <&clk_200M>;
+			clock-names = "ap_clk";
+			reset-gpios = <&axi_gpio_0 0x04 0x01>;
+			xlnx,max-height = <3100>;
+			xlnx,max-width = <4100>;
+			ports {
+			    #address-cells = <1>;
+			    #size-cells = <0>;
+			    port@0 {
+				reg = <0>;
+				xlnx,video-format = <0>;
+				xlnx,video-width = <8>;
+				csc_in: endpoint {
+				    remote-endpoint = <&demo_out>;
+				};
+			    };
+			    port@1 {
+				reg = <1>;
+				xlnx,video-format = <3>;
+				xlnx,video-width = <8>;
+				csc_out: endpoint {
+				    remote-endpoint = <&vcap_in>;
+				};
+			    };
+			};
+		    };
+*/
+
+                v_frmbuf_wr: v_frmbuf_wr_0@A0010000 {
+			#dma-cells = <1>;
+		        compatible = "xlnx,axi-frmbuf-wr-v2.2";
+		        reg = <0x0 0xA0010000 0x0 0x10000>;
+			clock-names = "ap_clk";
+			clocks = <&clk_200M>;
+			interrupt-parent = <&gic>;
+			interrupts = <0 90 4>;
+			reset-gpios = <&axi_gpio_0 0x03 0x01>;
+		        xlnx,dma-addr-width = <32>;
+		        xlnx,vid-formats = "xbgr4121212", "bgr888", "rgb888", "uyvy", "yuyv";
+		        xlnx,pixels-per-clock = <1>;
+		        xlnx,dma-align = <16>;
+		        xlnx,max-height = <3100>;
+		        xlnx,max-width = <4100>;
+
+			    
+	       };
+
+		vcap_pipeline_mipi_csi2_rx_0 {
+				compatible = "xlnx,video";
+				dma-names = "port0";
+				dmas = <&v_frmbuf_wr 0>;
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						direction = "input";
+						reg = <0>;
+
+						vcap_in: endpoint {
+						    remote-endpoint = <&demo_out>;
+						};
+					};
+					
+				};
+			};
+			
+	imx477_vana: fixedregulator@3 {
+		compatible = "regulator-fixed";
+		regulator-name = "imx477_vana";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		enable-active-high;
+	};
+
+	imx477_vdig: fixedregulator@4 {
+		compatible = "regulator-fixed";
+		regulator-name = "imx477_vdig";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
+	imx477_vddl: fixedregulator@5 {
+		compatible = "regulator-fixed";
+		regulator-name = "imx477_vddl";
+		regulator-min-microvolt = <1200000>;
+		regulator-max-microvolt = <1200000>;
+	};
+	
+
+	       axi_iic_0: i2c@A0030000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clock-names = "s_axi_aclk";
+			clocks = <&clk_200M>;
+			compatible = "xlnx,axi-iic-2.1", "xlnx,xps-iic-2.00.a";
+			interrupt-names = "iic2intc_irpt";
+			interrupt-parent = <&gic>;
+			interrupts = <0 104 4>;
+			reg = <0x0 0xA0030000 0x0 0x10000>;
+
+
+				imx477: sensor@1a {
+					compatible = "sony,imx477";
+					reg = <0x1a>;
+					clocks = <&clk_24m>;
+					VANA-supply = <&imx477_vana>;   /* 2.8v */
+					VDIG-supply = <&imx477_vdig>;   /* 1.8v */
+					VDDL-supply = <&imx477_vddl>;   /* 1.2v */
+					//reset-gpios = <&axi_gpio 2 0 0>;
+					link-frequencies = /bits/ 64 <456000000>;
+					
+					port {
+						direction = "input";
+					     sensor_out: endpoint {
+						remote-endpoint = <&csiss_in>;
+						data-lanes = <1 2>;
+						link-frequencies = /bits/ 64 <456000000>;
+						};
+					};
+				};
+		    };
+		    
+
+		axi_gpio_0: gpio@40000000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			#gpio-cells = <2>;
+			compatible = "xlnx,xps-gpio-1.00.a";
+			reg = <0x0 0xA0040000 0x0 0x10000>;
+			gpio-controller ;
+			xlnx,all-inputs = <0x0>;
+			xlnx,dout-default = <0xffffffff>;
+			xlnx,gpio-width = <0x8>;
+			xlnx,interrupt-present = <0x0>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xffffffff>;
+			xlnx,tri-default-2 = <0xffffffff>;
+		} ;
+
+/*
+		demos_0: mipi_demosic@A0020000 {
+			compatible = "xlnx,xps-gpio-1.00.a";
+			reg = <0x0 0xA0020000 0x0 0x1000>;
+		};
+
+		mipi_0: mipi_rx@A0000000 {
+			compatible = "xlnx,xps-gpio-1.00.a";
+			reg = <0x0 0xA0000000 0x0 0x1000>;
+		};
+*/
+
+
+/*		axi_vdma_0: dma@A0010000{
+			#dma-cells = <1>; 
+			clock-names = "s_axi_aclk";
+			clocks = <&zynqmp_clk 71>;
+			compatible = "xlnx,axi-vdma-1.00.a";
+                        interrupt-names = "vdma-s2mm-channel-irpt";
+			interrupt-parent = <&axi_intc_1>;
+			interrupts = <0 1 4 0 0 4>;
+			reg = <0x0 0xA0010000  0x0 0x10000>;
+			xlnx,addrwidth = <0x20>;
+			xlnx,flush-fsync = <0x1>;
+			xlnx,num-fstores = <0x1>;
+
+                        dma-channel@A0010000 {
+	                        compatible = "xlnx,axi-vdma-mm2s-channel";
+	                        interrupt-parent = <&axi_intc_1>;
+		                interrupts = <0 1 4>;
+			        xlnx,datawidth = <0x20>;
+                                xlnx,device-id = <0x0>;
+	                        xlnx,genlock-mode ; 
+                                xlnx,include-dre ;	
+	                };
+
+			dma-channel@A0010030 {
+				compatible = "xlnx,axi-vdma-s2mm-channel";
+				interrupt-parent = <&axi_intc_1>;
+				interrupts = <0 0 4>;
+				xlnx,datawidth = <0x20>;
+				xlnx,device-id = <0x1>;
+				xlnx,genlock-mode ;
+				xlnx,include-dre ;
+			};
+
+		};
+
+		vdmatest_tripple: vdmatripple@1 {
+		       compatible ="xlnx, vdma-triple-buffer-1.00.a";
+		       xlnx,num-fstores = <0x1>;
+		       dmas = <&axi_vdma_0 1 &axi_vdma_0 0>;
+		       dma-names = "vdma0", "vdma1";
+		       dma-coherent;
+		 } ; 
+*/
+
+        };
+    };
+};
