@@ -28,8 +28,10 @@ https://www.circuitvalley.com/2025/12/fpga-fmc-4x-mipi-csi-camera-breakout-fpga-
  <br>
 
 <a href="https://www.youtube.com/watch?v=pUvJuOuf-3s">
-<img src="https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/video_rfgen.png" alt="RFGEN" width="1000" height="380">
+<img src="https://raw.githubusercontent.com/circuitvalley/FMC_Camera_MIPI_Breakout_Board/refs/heads/main/Images/pga_fmc_mipi_camera_MIPIX4_circuitvalley (8) raspberry_pi_camera_fpga23.png" alt="RFGEN" width="1000" height="380">
 </a>
+
+
 
  <br>
  <br>
