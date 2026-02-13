@@ -9,6 +9,8 @@ FPGA FMC Connector LPC Breakout Carrier/Adapter board to connect 4 MIPI Cameras 
 - Example Video ISP pipeline working under Linux as V4L2 medica driver on ZCU102 Provided as Reference example.
 - Normal FPGA FMC Board comes from big manufacturer, Availability of such board is very very rare.
 - Board is VITA57.1 Compliant Has EEPROM to Configure voltages
+- This is Rev D of Board, Works with ZCU106 and ZCU104, ZCU102
+- Both ZCU106 and ZCU104 are supported by Free Xilinx Vivado
 
 Shield: [![CC BY-NC-ND 4.0][cc-by-nc-nd-shield]][cc-by-nc-nd]
 
