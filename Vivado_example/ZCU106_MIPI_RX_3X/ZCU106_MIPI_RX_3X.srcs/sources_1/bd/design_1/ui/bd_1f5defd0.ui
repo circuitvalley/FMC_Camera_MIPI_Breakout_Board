@@ -1,0 +1,72 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.441941",
+   "Default View_TopLeft":"-507,-351",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.8.0 2024-04-26 e1825d835c VDI=44 GEI=38 GUI=JA:21.0
+#  -string -flagsOSRD
+preplace port CLK_IN1_D_0 -pg 1 -lvl 0 -x 0 -y 1390 -defaultsOSRD
+preplace port mipi_phy_if_0 -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
+preplace port IIC_0 -pg 1 -lvl 7 -x 2470 -y 470 -defaultsOSRD
+preplace port IIC_1 -pg 1 -lvl 7 -x 2470 -y 610 -defaultsOSRD
+preplace port IIC_2 -pg 1 -lvl 7 -x 2470 -y 330 -defaultsOSRD
+preplace port mipi_phy_if_1 -pg 1 -lvl 0 -x 0 -y 970 -defaultsOSRD
+preplace port mipi_phy_if_2 -pg 1 -lvl 0 -x 0 -y 480 -defaultsOSRD
+preplace portBus Camenable -pg 1 -lvl 7 -x 2470 -y 750 -defaultsOSRD
+preplace inst zynq_ultra_ps_e_0 -pg 1 -lvl 4 -x 1530 -y 510 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 5 -x 1970 -y 510 -defaultsOSRD
+preplace inst rst_ps8_0_99M -pg 1 -lvl 1 -x 200 -y 1250 -defaultsOSRD
+preplace inst mipi_csi2_rx_subsyst_0 -pg 1 -lvl 2 -x 560 -y 140 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 1 -x 200 -y 1390 -defaultsOSRD
+preplace inst v_frmbuf_wr_0 -pg 1 -lvl 3 -x 970 -y 90 -defaultsOSRD
+preplace inst axi_iic_0 -pg 1 -lvl 6 -x 2300 -y 490 -defaultsOSRD
+preplace inst axi_iic_1 -pg 1 -lvl 6 -x 2300 -y 350 -defaultsOSRD
+preplace inst axi_iic_2 -pg 1 -lvl 6 -x 2300 -y 630 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 3 -x 970 -y 260 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 6 -x 2300 -y 750 -defaultsOSRD
+preplace inst mipi_csi2_rx_subsyst_1 -pg 1 -lvl 2 -x 560 -y 540 -defaultsOSRD
+preplace inst mipi_csi2_rx_subsyst_2 -pg 1 -lvl 2 -x 560 -y 1030 -defaultsOSRD
+preplace inst v_frmbuf_wr_1 -pg 1 -lvl 3 -x 970 -y 770 -defaultsOSRD
+preplace inst v_frmbuf_wr_2 -pg 1 -lvl 3 -x 970 -y 980 -defaultsOSRD
+preplace netloc axi_iic_0_iic2intc_irpt 1 2 5 800 340 1190J 250 NJ 250 NJ 250 2440
+preplace netloc axi_iic_1_iic2intc_irpt 1 2 5 790 350 1220J 260 NJ 260 NJ 260 2430
+preplace netloc axi_iic_2_iic2intc_irpt 1 2 5 780 360 1230J 270 NJ 270 NJ 270 2420
+preplace netloc clk_wiz_0_clk_out1 1 1 1 400 160n
+preplace netloc rst_ps8_0_99M_peripheral_aresetn 1 1 5 380 10 750 630 1160J 700 1840 700 2180
+preplace netloc xlconcat_0_dout 1 3 1 1210 260n
+preplace netloc xlconstant_0_dout 1 6 1 NJ 750
+preplace netloc zynq_ultra_ps_e_0_pl_clk0 1 0 6 30 1070 390 20 740 490 1190 710 1830 710 2170
+preplace netloc zynq_ultra_ps_e_0_pl_resetn0 1 0 5 20 860 NJ 860 NJ 860 NJ 860 1820
+preplace netloc CLK_IN1_D_0_1 1 0 1 NJ 1390
+preplace netloc axi_iic_0_IIC 1 6 1 NJ 470
+preplace netloc axi_iic_1_IIC 1 6 1 NJ 330
+preplace netloc axi_iic_2_IIC 1 6 1 NJ 610
+preplace netloc axi_smc_M00_AXI 1 1 5 410 370 NJ 370 NJ 370 NJ 370 2100
+preplace netloc axi_smc_M01_AXI 1 2 4 770 640 1170J 650 NJ 650 2140
+preplace netloc axi_smc_M02_AXI 1 5 1 N 470
+preplace netloc axi_smc_M03_AXI 1 5 1 2150 330n
+preplace netloc axi_smc_M04_AXI 1 5 1 2150 510n
+preplace netloc axi_smc_M05_AXI 1 1 5 410 660 NJ 660 NJ 660 NJ 660 2130
+preplace netloc axi_smc_M06_AXI 1 1 5 410 670 NJ 670 NJ 670 NJ 670 2120
+preplace netloc axi_smc_M07_AXI 1 2 4 800 650 1150J 680 NJ 680 2110
+preplace netloc axi_smc_M08_AXI 1 2 4 760 680 1140J 690 NJ 690 2100
+preplace netloc mipi_csi2_rx_subsyst_0_video_out 1 2 1 N 80
+preplace netloc mipi_csi2_rx_subsyst_1_video_out 1 2 1 710 480n
+preplace netloc mipi_csi2_rx_subsyst_2_video_out 1 2 1 N 970
+preplace netloc mipi_phy_if_0_1 1 0 2 NJ 80 NJ
+preplace netloc mipi_phy_if_1_1 1 0 2 NJ 970 NJ
+preplace netloc mipi_phy_if_2_1 1 0 2 NJ 480 NJ
+preplace netloc v_frmbuf_wr_0_m_axi_mm_video 1 3 1 1240 80n
+preplace netloc v_frmbuf_wr_1_m_axi_mm_video 1 3 1 1200 450n
+preplace netloc v_frmbuf_wr_2_m_axi_mm_video 1 3 1 1240 470n
+preplace netloc zynq_ultra_ps_e_0_M_AXI_HPM0_FPD 1 4 1 N 480
+preplace netloc zynq_ultra_ps_e_0_M_AXI_HPM1_FPD 1 4 1 N 500
+levelinfo -pg 1 0 200 560 970 1530 1970 2300 2470
+pagesize -pg 1 -db -bbox -sgen -150 0 2620 1450
+"
+}
+{
+   "da_axi4_cnt":"8",
+   "da_clkrst_cnt":"14",
+   "da_zynq_ultra_ps_e_cnt":"1"
+}
